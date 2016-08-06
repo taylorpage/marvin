@@ -1,7 +1,9 @@
 import React from 'react';
-import { searchEvents } from '../actions/index.js'
+//import { searchEvents } from '../actions/index.js'
+import { setEvents } from '../actions/index.js'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import axios from 'axios'
 
 var categories = [
   { value: 103, cat: 'Music' },
@@ -43,13 +45,27 @@ class Search extends React.Component {
       category: val.options[val.selectedIndex].value
     })
   }
+  searchEvents (search) {
+   const context = this;
+   axios.get('https://www.eventbriteapi.com/v3/events/search/?categories=' + search.category + '&q=' + search.value + '&token=UQOCU57TT67WA4W7V6RE'
+    )
+    .then(function(data) {
+      console.log(data.data.events);
+      context.props.setEvents(data.data.events);
+    })
+  }
+
+
+
 
   render() {
     return (
       <div>
         <select id='category-select' onChange={this.handleChange.bind(this)}>
           { categories.map(obj => {
-              return <option value={ obj.value }>{ obj.cat }</option>
+              return <option
+                value={ obj.value }
+               >{ obj.cat }</option>
             })
           }
         </select>
@@ -59,7 +75,7 @@ class Search extends React.Component {
           onChange={this.handleChange.bind(this)}
         ></input>
         <button onClick={
-          this.props.searchEvents.bind(this, this.state)
+          this.searchEvents.bind(this, this.state)
         }
         >Search Events</button>
       </div>
@@ -75,7 +91,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    searchEvents: searchEvents
+    setEvents: setEvents
   }, dispatch);
 };
 

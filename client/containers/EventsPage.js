@@ -6,13 +6,12 @@ import { connect } from 'react-redux';
 class EventsPage extends React.Component{
   constructor (props) {
     super(props);
-    this.props.setEvents('homeless man meets lamppost');
   }
 
 
   render (){
     return(
-      <h2>{this.props.events[0]}</h2>
+      <h2>{this.props.events}</h2>
     )
   }
 }
