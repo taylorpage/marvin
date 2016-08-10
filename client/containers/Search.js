@@ -1,5 +1,4 @@
 import React from 'react';
-//import { searchEvents } from '../actions/index.js'
 import { setEvents } from '../actions/index.js'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
